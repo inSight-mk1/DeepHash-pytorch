@@ -1,5 +1,6 @@
 import torch.nn as nn
 from torchvision import models
+import torch
 
 
 class AlexNet(nn.Module):
@@ -38,9 +39,11 @@ resnet_dict = {"ResNet18": models.resnet18, "ResNet34": models.resnet34, "ResNet
 
 
 class ResNet(nn.Module):
-    def __init__(self, hash_bit, res_model="ResNet152"):
+    def __init__(self, hash_bit, res_model="ResNet152", pretrained_model_path=None):
         super(ResNet, self).__init__()
         model_resnet = resnet_dict[res_model](pretrained=True)
+        if pretrained_model_path is not None:
+            model_resnet.load_state_dict(torch.load(pretrained_model_path))
         self.conv1 = model_resnet.conv1
         self.bn1 = model_resnet.bn1
         self.relu = model_resnet.relu
