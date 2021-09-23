@@ -38,7 +38,7 @@ resnet_dict = {"ResNet18": models.resnet18, "ResNet34": models.resnet34, "ResNet
 
 
 class ResNet(nn.Module):
-    def __init__(self, hash_bit, res_model="ResNet50"):
+    def __init__(self, hash_bit, res_model="ResNet152"):
         super(ResNet, self).__init__()
         model_resnet = resnet_dict[res_model](pretrained=True)
         self.conv1 = model_resnet.conv1

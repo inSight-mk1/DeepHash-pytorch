@@ -1,7 +1,9 @@
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 from utils.tools import *
 from network import *
 
-import os
 import torch
 import torch.optim as optim
 import time
@@ -31,11 +33,11 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 def get_config():
     config = {
         "lambda": 0.0001,
-        "optimizer": {"type": optim.RMSprop, "optim_params": {"lr": 1e-5, "weight_decay": 10 ** -5}},
+        "optimizer": {"type": optim.RMSprop, "optim_params": {"lr": 1e-3, "weight_decay": 10 ** -5}},
         "info": "[CSQ]",
-        "resize_size": 256,
+        "resize_size": 224,
         "crop_size": 224,
-        "batch_size": 64,
+        "batch_size": 16,
         # "net": AlexNet,
         "net": ResNet,
         # "dataset": "cifar10-1",
@@ -44,12 +46,14 @@ def get_config():
         # "dataset": "nuswide_21",
         # "dataset": "nuswide_21_m",
         "epoch": 150,
-        "test_map": 10,
+        "test_map": 1,
         # "device":torch.device("cpu"),
-        "device": torch.device("cuda:1"),
-        "bit_list": [64],
+        "device": torch.device("cuda:0"),
+        "bit_list": [256],
+        "save_path": 'weights/'
     }
     config = config_dataset(config)
+    config["n_class"] = 240
     return config
 
 
